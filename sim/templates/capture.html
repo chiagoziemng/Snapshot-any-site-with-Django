@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Website Capture</title>
+    <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            font-weight: normal;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        #loading {
+            display: none;
+        }
+        #preview[loading] #loading {
+            display: block;
+        }
+        #preview[loading] img, #preview[loading] p, #preview[loading] a {
+            display: none;
+        }
+        #preview {
+            text-align: center;
+        }
+        .htmx-indicator{
+            opacity:0;
+            transition: opacity 500ms ease-in;
+        }
+        .htmx-request .htmx-indicator{
+            opacity:1
+        }
+        .htmx-request.htmx-indicator{
+            opacity:1
+        }
+        #spinner {
+            position: fixed;
+            margin: auto;
+        }
+
+        #spinner:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            margin-top: -40px;
+            margin-left: -40px;
+            border: 4px solid #f1cbcb;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Screenshot any website</h1>
+
+<form hx-post="/capture-image/" hx-trigger="submit" hx-swap="innerHTML" hx-target="#preview" hx-indicator="#spinner">
+    {% csrf_token %}
+    <input type="url" name="url" required placeholder="Enter URL" value="{{ url }}">
+    <button type="submit">Capture</button>
+</form>
+
+<div id="spinner" class="spinner htmx-indicator"></div>
+
+<div id="preview">
+    <!-- Content will be replaced by the server response -->
+</div>
+
+</body>
+</html>

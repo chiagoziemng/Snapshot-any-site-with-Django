@@ -1,0 +1,17 @@
+{% load static %}
+<style>
+     #preview-link img {
+         border-radius: 15px;
+         width: 80%;
+         margin: auto;
+     }
+     #preview-link {
+         display: flex;
+         justify-content: center;
+     }
+</style>
+
+<a id="download-link" href="{% static 'sim/screenshot.png' %}" download="screenshot.png">Download Image</a>
+<a id="preview-link" href="{% static 'sim/screenshot.png' %}" target="_blank" style="cursor: pointer">
+    <img id="screenshot" src="{% static 'sim/screenshot.png' %}" alt="Website Screenshot">
+</a>
